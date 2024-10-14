@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import TextEditor from "./TextEditor";
+import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+
+
+function RedirectToNewDocument() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const DocumentId = uuidv4();
+    navigate(`/document/${DocumentId}`);
+    
+  }, [navigate]);
+
+  return null; 
+}
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RedirectToNewDocument /> 
+  },
+  {
+    path: '/document/:documentId',
+    element: <TextEditor />
+  }
+]);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RouterProvider router={router} />
   );
 }
 
